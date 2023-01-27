@@ -16,24 +16,23 @@ var db =mysql.createConnection({
 
 router.use(cors());
 router.use(cookieParser());
-router.use(express.json())
-router.use(express.urlencoded())
+router.use(express.urlencoded({ extended: true }));
+router.use(express.json());
 
 
 
 //예약자 정보 db에 저장
-router.post('/insert', (req, res) => {
-    const id = req.id;
-    const activity = body.activity;
-    const info = body.info;
-    const number = body.number;
-    const startDate = body.startDate;
-    const endDate = body.endDate;
+router.put('/insert', (req, res) => {
+    const name = req.body.name; //예약자 이름 
+    const activity = req.body.activity; //활동명
+    const people = req.body.people; //인원수
+    const startDate = req.body.startDate; //시작일
+    const endDate = req.body.endDate; //종료일
      
-    db.query('INSERT INTO reservation (username, password) VALUES(?,?,?,?,?)', [id, activity, info, number, startDate, endDate], function (error, data) {
+    db.query('INSERT INTO reservation (name, activity, people, startDate, endDate) VALUES(?,?,?,?,?)', [name, activity, people, startDate, endDate], function (error, data) {
         if (error) {
-            console.log("message: cannot get info from SQL");
-            throw error2;
+            console.log("message: cannot insert info to SQL");
+            throw error;
         }
         console.log("information insertion success");
     });
@@ -42,17 +41,16 @@ router.post('/insert', (req, res) => {
 });
 
 //회원가입 프로세스
-router.get('/info', (req, res) => {
-    const id = req.id;
-    const activity = body.activity;
-    const info = body.info;
-    const number = body.number;
-    const startDate = body.startDate;
-    const endDate = body.endDate;
+router.post('/info', (req, res) => {
+    const name = req.body.name; //예약자 이름 
 
-    db.query('SELECT * FROM reservation WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
-        console.log(JSON.stringify(results));
-        res.send(JSON.parse(JSON.stringify(results))[0]);
+    db.query('SELECT * FROM reservation WHERE name = ?', [name], function(error, results, fields) {
+        if (error) {
+            console.log("message: cannot get info from SQL");
+            throw error;
+        }
+        console.log(JSON.parse(JSON.stringify(results)));
+        res.send(JSON.parse(JSON.stringify(results)));
     });
 
 })
