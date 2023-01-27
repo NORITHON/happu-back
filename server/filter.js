@@ -20,11 +20,17 @@ router.use(express.urlencoded({ extended: true }));
 router.use(express.json());
 
 //필터 배열 버튼 정보
-router.post('/', (req, res) => {
-    const like = ["새로운 걸 배우기", "여행하기", "운동하기","맛있는 음식 먹기"];
-    const condition = ["걷기 힘들어요", "만성질환이 있어요", "식이조절이 필요해요","숨이 금방 차요", "놀라면 안돼요","새로운 사람과의 만남은 부담스러워요"];
-    res.send(like);
-    res.send(condition);
+router.post('/preference', (req, res) => {
+    const user_id = req.body.user_id; //user이름
+    db.query('SELECT learnig, travel, art, sports, foods, walk, chronic, breathe, surprised, people, diet FROM user WHERE login_id = ?', [user_id], function(error, results, fields) {
+        if (error) {
+            console.log("message: cannot get info from SQL");
+            throw error;
+        }
+        console.log(JSON.parse(JSON.stringify(results[0])));
+        console.log("success!!");
+        res.send(JSON.parse(JSON.stringify(results[0])));
+    });
 });
 
 //filter 동작 구현
