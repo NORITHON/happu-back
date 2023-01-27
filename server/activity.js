@@ -21,8 +21,9 @@ router.use(express.json());
 
 //유저별 필터 저장 --> 개인화 부분
 router.post('/preference', (req, res) => {
-    const user_id = req.body.user_id; //user이름
-    db.query('SELECT learnig, travel, art, sports, foods, walk, chronic, breathe, surprised, people, diet FROM user WHERE login_id = ?', [user_id], function(error, results, fields) {
+    console.log("hi")
+    const user_id = req.body.login_id; //user이름
+    db.query('SELECT learn, travel, art, sports, foods, walk, chronic, breathe, surprised, people, diet FROM user WHERE login_id = ?', [user_id], function(error, results, fields) {
         if (error) {
             console.log("message: cannot get info from SQL");
             throw error;
