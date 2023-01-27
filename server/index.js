@@ -1,10 +1,12 @@
 const express = require('express')
 const loginRouter = require('./login.js');
+const reservationRouter = require('./reservation.js');
 
 const app = express();
 app.use(express.json())
 
 app.use("/login", loginRouter)
+app.use("/reservation", reservationRouter);
 
 app.get("", (req, res) => {
   res.send("Hello Express!");

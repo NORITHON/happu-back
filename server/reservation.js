@@ -22,30 +22,27 @@ router.use(express.urlencoded())
 
 
 //예약자 정보 db에 저장
-router.post('/signin', (req, res) => {
+router.post('/insert', (req, res) => {
     const id = req.id;
     const activity = body.activity;
     const info = body.info;
     const number = body.number;
     const startDate = body.startDate;
     const endDate = body.endDate;
-    const timestamp = ""
-
      
     db.query('INSERT INTO reservation (username, password) VALUES(?,?,?,?,?)', [id, activity, info, number, startDate, endDate], function (error, data) {
         if (error) {
             console.log("message: cannot get info from SQL");
             throw error2;
         }
-        request.session.is_logined;
-        //insertion 성공한 경우
+        console.log("information insertion success");
     });
     
 
 });
 
 //회원가입 프로세스
-router.post('/signup', (req, res) => {
+router.get('/info', (req, res) => {
     const id = req.id;
     const activity = body.activity;
     const info = body.info;
@@ -54,7 +51,8 @@ router.post('/signup', (req, res) => {
     const endDate = body.endDate;
 
     db.query('SELECT * FROM reservation WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
-       
+        console.log(JSON.stringify(results));
+        res.send(JSON.parse(JSON.stringify(results))[0]);
     });
 
 })
