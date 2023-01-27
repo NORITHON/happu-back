@@ -1,10 +1,10 @@
 const express = require('express')
-const foodRouter = require('./food.js');
+const loginRouter = require('./login.js');
 
 const app = express();
 app.use(express.json())
 
-app.use("/food", foodRouter)
+app.use("/login", loginRouter)
 
 app.get("", (req, res) => {
   res.send("Hello Express!");
