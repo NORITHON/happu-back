@@ -2,6 +2,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const mysql = require('mysql');
 const cors = require('cors');
+const { request } = require('express');
 
 require('dotenv').config();
 
@@ -35,6 +36,7 @@ app.get('/', (req, res) => { //예약자 정보 저장
             console.log("message: cannot get info from SQL");
             throw error2;
         }
+        
         //insertion 성공한 경우
     });
     
