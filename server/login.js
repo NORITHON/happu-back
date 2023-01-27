@@ -26,24 +26,25 @@ router.post('/signin', (req, res) => {
     const body = req.body;
     const query_id = body.id;
     const query_pw = body.password;
-  
+   console.log(body)
     if(query_id && query_pw){ //비밀번호가 입력된다면
 
     db.query('SELECT * FROM user WHERE login_id = ? AND login_pw = ?', [query_id, query_pw], (err, result)=>{
       if (err) throw err;
       if (result.length > 0) { 
-        console.log(result)
-      res.send(result)
+        console.log(JSON.parse(JSON.stringify(result)))
+      res.send(JSON.parse(JSON.stringify(result))[0])
       }
-      else{
-        throw loginErrorNoIdPw;
-      }
+      // else{
+      //   throw err;
+      // }
     })
 
-    } else { //login err case 2
-        //로그린 PW,ID 입력이 아예 없고 로그인을 눌렀을 때
-        throw loginErrorNoIdPw;
-    }
+    } 
+    // else { //login err case 2
+    //     //로그린 PW,ID 입력이 아예 없고 로그인을 눌렀을 때
+    //     throw err;
+    // }
 });
 
 //회원가입 프로세스
