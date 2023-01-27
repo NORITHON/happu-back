@@ -1,8 +1,8 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const mysql = require('mysql');
+const router = express.Router();
 const cors = require('cors');
-const { request } = require('express');
 
 require('dotenv').config();
 
@@ -14,14 +14,15 @@ var db =mysql.createConnection({
   database: process.env.MYSQL_DATABASE
 });
 
-const app = express();
-app.use(cors());
-app.use(cookieParser());
-app.use(express.json())
-app.use(express.urlencoded())
+router.use(cors());
+router.use(cookieParser());
+router.use(express.json())
+router.use(express.urlencoded())
 
 
-app.get('/', (req, res) => { //예약자 정보 저장 
+
+//예약자 정보 db에 저장
+router.post('/signin', (req, res) => {
     const id = req.id;
     const activity = body.activity;
     const info = body.info;
@@ -36,15 +37,15 @@ app.get('/', (req, res) => { //예약자 정보 저장
             console.log("message: cannot get info from SQL");
             throw error2;
         }
-        
+        request.session.is_logined;
         //insertion 성공한 경우
     });
     
-    
 
-})
+});
 
-app.get('/', (req, res) => { //예약자 정보 꺼내기 
+//회원가입 프로세스
+router.post('/signup', (req, res) => {
     const id = req.id;
     const activity = body.activity;
     const info = body.info;
@@ -55,4 +56,7 @@ app.get('/', (req, res) => { //예약자 정보 꺼내기
     db.query('SELECT * FROM reservation WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
        
     });
+
 })
+
+module.exports = router;
