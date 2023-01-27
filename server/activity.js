@@ -22,12 +22,15 @@ router.use(express.json());
 //액티비티 상세 화면
 router.post('/', (req, res) => {
     const name = req.body.name; //예약자 이름 
-    db.query('SELECT * FROM activities WHERE name = ?', [name], function(error, results, fields) {
+    db.query('SELECT name, description, location, platform, price FROM activities WHERE name = ?', [name], function(error, results, fields) {
         if (error) {
             console.log("message: cannot get info from SQL");
             throw error;
         }
-        console.log(JSON.parse(JSON.stringify(results)));
-        res.send(JSON.parse(JSON.stringify(results)));
+        console.log(JSON.parse(JSON.stringify(results[0])));
+        console.log("success!!");
+        res.send(JSON.parse(JSON.stringify(results[0])));
     });
 });
+
+module.exports = router;
