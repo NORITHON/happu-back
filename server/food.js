@@ -28,6 +28,7 @@ router.use(express.urlencoded())
     const query_id = req.params.id;
     db.query(`SELECT * FROM foods WHERE id=${query_id}`, (err, data) => {
       if(err) throw err;
+      console.log("hey");
       res.write(JSON.stringify(data));
       res.end();
     });
