@@ -30,21 +30,16 @@ router.post('/signin', (req, res) => {
     if(query_id && query_pw){ //비밀번호가 입력된다면
 
     db.query('SELECT * FROM user WHERE login_id = ? AND login_pw = ?', [query_id, query_pw], (err, result)=>{
-      if (err) throw err;
+      if (err) throw new Error('someError');
       if (result.length > 0) { 
         console.log(JSON.parse(JSON.stringify(result)))
       res.send(JSON.parse(JSON.stringify(result))[0])
       }
-      // else{
-      //   throw err;
-      // }
+      else{
+        throw new Error('someError');
+      }
     })
-
     } 
-    // else { //login err case 2
-    //     //로그린 PW,ID 입력이 아예 없고 로그인을 눌렀을 때
-    //     throw err;
-    // }
 });
 
 //회원가입 프로세스
@@ -56,19 +51,17 @@ router.post('/signup', (req, res) => {
 
   if (query_id && query_pw){ //아이디랑 PW 입력이 모두 있을때
     db.query('SELECT * FROM user WHERE login_id = ?', [query_id], function(error, results, fields) { // DB에 같은 이름의 회원아이디가 있는지 확인
-        if (error) throw error;
-        if (results.length <= 0) {     // signp err case 1: DB에 같은 이름의 회원아이디가 없고, 비밀번호가 올바르게 입력된 경우 
+        if (error) throw new Error('something')
+        if (results.length <= 0) {     
             db.query('INSERT INTO user (login_id, login_pw, name) VALUES(?,?,?)', [query_id, query_pw, query_name], function (error, data) {
-                if (error) throw error;
+                if (error) throw new Error('something')
                 console.log(body)
             });
-        } else {    // sigUp err case 2: DB에 같은 이름의 회원아이디가 있는 경우
-            throw signUpErrorIdExist;  
+        } else {  
+          throw new Error('이미 존재하는 id')
         }            
     });
-  }else {   
-    throw no_input;
-}
+  }
 })
 
 module.exports = router;
